@@ -1,9 +1,12 @@
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
-from .serializers import UserRegistrationSerializer, UserLoginSerializer
+from rest_framework.generics import RetrieveUpdateDestroyAPIView
+
+from .serializers import UserRegistrationSerializer, UserLoginSerializer, ProfileSerializer
+from .models import Profile
 
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
@@ -38,3 +41,12 @@ class UserLoginView(TokenObtainPairView):
         if serializer.is_valid():
             return Response(serializer.validated_data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_401_UNAUTHORIZED)
+
+
+class ProfileView(RetrieveUpdateDestroyAPIView):
+    serializer_class = ProfileSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Profile.objects.all()
+    

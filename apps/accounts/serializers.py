@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User
+from .models import User, Profile
 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
@@ -46,3 +46,13 @@ class UserLoginSerializer(TokenObtainPairSerializer):
         # Add custom fields to the token
         token['username'] = user.username
         return token
+    
+
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = (
+            'user', 'first_name', 'last_name',
+            'birth_date', 'profile_image', 'status',
+            'phone', 'country'
+        )

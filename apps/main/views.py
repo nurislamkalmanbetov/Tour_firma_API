@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from drf_yasg.utils import swagger_auto_schema
 
-from .serializers import ToursSerializer
+from .serializers import ToursSerializer 
 
 class TourCreateView(APIView):
     permission_classes = [IsAuthenticated]
@@ -28,3 +28,5 @@ class TourListView(ListAPIView):
 
     def get_queryset(self):
         return self.request.user.tours.all()
+    
+
